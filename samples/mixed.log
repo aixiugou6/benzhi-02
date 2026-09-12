@@ -1,0 +1,14 @@
+2024-05-01T10:00:00Z [INFO] order-svc - create order {"order_id":"ORD-20240501-001","amount":99.8,"currency":"CNY"} accepted
+@@@@ totally broken @@@@
+2024-05-01T10:00:01Z [ERROR] order-svc - create order failed, 订单号=ORD-20240501-001
+	java.lang.IllegalStateException: stock lock timeout
+	at com.shop.order.OrderService.create(OrderService.java:88)
+	at com.shop.order.OrderController.post(OrderController.java:42)
+Caused by: java.sql.SQLTransientException: lock wait timeout exceeded
+	at com.shop.db.Lock.acquire(Lock.java:201)
+	... 12 more
+2024-05-01T10:00:02Z [INFO] order-svc - recovered after retry
+{"ts":"2024-05-01T20:00:03+08:00","level":"warning","service":"payment-service","order_id":"ORD-20240501-002","amount":42.5,"currency":"USD","duration_ms":"120","message":"charged"}
+2024-05-01 18:00:04,123 +0800 - inventory-svc - WARNING - stock low for sku SKU-77
+10.0.0.1 - - [01/May/2024:10:00:05 +0000] "POST /api/orders/ORD-20240501-003/pay HTTP/1.1" 200 532 "-" "curl/8.0"
+	at com.ghost.Orphan.nope(Orphan.java:1)

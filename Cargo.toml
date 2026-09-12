@@ -1,0 +1,26 @@
+[package]
+name = "logparse"
+version = "0.1.0"
+edition = "2021"
+description = "统一解析异构服务日志为结构化 JSON 的流式处理服务"
+license = "MIT"
+
+[dependencies]
+# 全部为 crates.io 上的官方发行版（cargo 会自动从 crates.io 拉取并校验）
+regex = "1"          # 模式匹配与字段抽取用的正则引擎（NFA，支持命名捕获组）
+serde = { version = "1", features = ["derive"] }  # 规则配置反序列化
+serde_json = { version = "1", features = ["preserve_order"] }  # 规则 json_source/内嵌 JSON；保留字段插入顺序以稳定输出
+chrono = { version = "0.4", default-features = false, features = ["clock"] }  # 时间戳解析与归一
+# clock feature 让 chrono 提供当前时间（用于无时间戳日志的接收时间兜底，以及统计输出）
+
+[lib]
+name = "logparse"
+path = "src/lib.rs"
+
+[[bin]]
+name = "logparse"
+path = "src/main.rs"
+
+[profile.dev]
+# 让 debug 构建也尽量快；不影响正确性
+opt-level = 0
